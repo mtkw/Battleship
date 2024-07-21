@@ -15,6 +15,9 @@ namespace Battleship
         private bool isHitted = false;
         private bool isSunk = false;
 
+
+        //Bez metody isHit() niepotrzebna jest
+        //Potrzebna jest metoda isSunk()
         public Ship(ShipTypeEnum shipType, List<Square> squares)
         {
             this.shipType = shipType;
