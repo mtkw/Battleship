@@ -9,14 +9,16 @@ namespace Battleship
 {
     internal class Square
     {
-        private SquareStatusEnum status = 0;
+        private SquareStatusEnum status { get; set; }
         private int CoordinateX { get; set; }
         private int CoordinateY { get; set; }
+        private Ship Ship { get; set; }
 
         public Square(int coordinateX, int coordinateY)
         {
             CoordinateX = coordinateX;
             CoordinateY = coordinateY;
+            status = 0;
         }
     }
 }
