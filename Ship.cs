@@ -8,12 +8,12 @@ namespace Battleship
 {
     internal class Ship
     {
-        private ShipTypeEnum shipType { get; }
-        private int lenght { get; }
-        private List<Square>? Squares { get; set; }
-        private List<Square> hits { get; set; }
-        private bool isHitted { get; set; }
-        private bool isSunk { get; set; }
+        private ShipTypeEnum shipType;
+        private int lenght;
+        private List<Square>? Squares;
+        private List<Square> hits;
+        private bool isHitted;
+        private bool isSunk;
 
 
         //Bez metody isHit() niepotrzebna jest
@@ -26,5 +26,27 @@ namespace Battleship
             isHitted = false;
             isSunk = false;
         }
+
+        public int ShipLength()
+        {
+            return lenght;
+        }
+
+        public string ShipType()
+        {
+            return shipType.ToString();
+        }
+
+/*        public string ShipType()
+        {
+            string shipType = "";
+            switch (lenght)
+            {
+                case 1:
+                    shipType = "Carrier";
+                    break;
+            }
+        }*/
+
     }
 }

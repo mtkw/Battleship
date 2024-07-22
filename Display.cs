@@ -8,5 +8,15 @@ namespace Battleship
 {
     internal class Display
     {
+
+        public void PrintBoard(Board board, Player player)
+        {
+            Console.WriteLine(board.ToString(player));
+        }
+
+        public void PrintPlayer(Player player)
+        {
+            Console.WriteLine(player.PlayerName());
+        }
     }
 }
