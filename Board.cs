@@ -9,16 +9,32 @@ namespace Battleship
     internal class Board
     {
         private readonly Player boardOwner;
-        private Square[,] fields;
+        public Square[,] fields;
         private int boardSize;
         public List<Ship> shipList = new List<Ship>();
+        public int PossibleShipsCount;
+        private List<ShipTypeEnum> shipTypeEnumList = new List<ShipTypeEnum>();
 
         public Board(Player boardOwner, int boardSize)
         {
             this.boardOwner = boardOwner;
             this.boardSize = boardSize;
             this.fields = new Square[boardSize, boardSize];
+            if(boardSize >= 5 && boardSize <= 8)
+            {
+                this.PossibleShipsCount = 3;
+            }
+            if(boardSize >= 9 && boardSize <= 12)
+            {
+                this.PossibleShipsCount = 4;
+            }
+            if(boardSize > 12 && boardSize <= 15)
+            {
+                this.PossibleShipsCount = 5;
+            }
             InitEmptyBoard();
+            getShipTypesEnum();
+            CreateShip();
         }
 
         private void InitEmptyBoard()
@@ -33,10 +49,31 @@ namespace Battleship
         }
 
         //Create ship i pleace ship should be here.
-        public void CreateShip(ShipTypeEnum shipType)
+/*        public void CreateShip(ShipTypeEnum shipType)
         {
             Ship Ship = new Ship(shipType);
             shipList.Add(Ship);
+        }*/
+
+        private void CreateShip()
+        {
+            for (int x = 0; x < PossibleShipsCount; x++)
+            {
+                Ship Ship = new Ship(shipTypeEnumList[x]);
+                shipList.Add(Ship);
+            }
+        }
+
+        private void getShipTypesEnum()
+        {
+            var shipTypes = Enum.GetNames(typeof(ShipTypeEnum));
+            foreach (string shipType in shipTypes)
+            {
+                if (Enum.TryParse(shipType, out ShipTypeEnum enumValue))
+                {
+                    shipTypeEnumList.Add(enumValue);
+                }
+            }
         }
 
         private bool IsPossiblePlacement(Ship Ship, int startX, int startY, string Direction)
@@ -48,14 +85,45 @@ namespace Battleship
             {
                 if (Direction.ToLower() == "horizontal" && startX + Ship.ShipLength() < boardSize)
                 {
-                    return true;
+                    if(IsEmptySpace(Ship, startX, startY, Direction))
+                    {
+                        return true;
+                    }
                 }
                 if (Direction.ToLower() == "vertical" && startY + Ship.ShipLength() < boardSize) 
                 { 
-                    return true; 
+                    if(IsEmptySpace(Ship, startY, startX, Direction))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
+        }
+
+        private bool IsEmptySpace(Ship ship, int startX, int startY, string Direction) 
+        {
+            if (Direction.ToLower() == "horizontal") 
+            {
+                for(int y = 0; y < ship.ShipLength(); y++)
+                {
+                    if ((int)fields[startX, startY + y].Status != (int)SquareStatusEnum.Empty)
+                    {
+                        return false;
+                    }
+                }
+            }
+            if (Direction.ToLower() == "vertical")
+            {
+                for (int x = startX; x < ship.ShipLength(); x++)
+                {
+                    if (fields[startX + x, startY].getStatus() != (int)SquareStatusEnum.Empty)
+                    {
+                        return false;
+                    }
+                }
+            }
+                return true;
         }
 
         public void PlaceShipOnBoard(Ship ship, int startX, int startY, string Direction)
@@ -65,7 +133,7 @@ namespace Battleship
             }
             else
             {
-                shipList.Remove(ship);
+                Console.WriteLine("Nie poszło");
             }
         }
 
@@ -104,7 +172,7 @@ namespace Battleship
                     switch (FieldStatus)
                     {
                         case 0:
-                            board += " ";
+                            board += "E";
                             break;
                         case 1:
                             board += "S";
@@ -137,7 +205,7 @@ namespace Battleship
                     switch (FieldStatus)
                     {
                         case 0:
-                            board += " ";
+                            board += "E";
                             break;
                         case 2:
                             board += "H";
@@ -146,7 +214,7 @@ namespace Battleship
                             board += "M";
                             break;
                         default:
-                            board += "?";
+                            board += "*";
                             break;
                     }
                 }

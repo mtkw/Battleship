@@ -12,6 +12,7 @@ namespace Battleship
         Empty,
         Ship,
         Hit,
-        Missed
+        Missed,
+        Sunk
     }
 }

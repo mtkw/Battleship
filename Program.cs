@@ -4,20 +4,20 @@
     {
         static void Main(string[] args)
         {
-            Player Player1 = new Player("Stefan");
-            Board boardPlayerOne = new Board(Player1, 5);
-            Player Player2 = new Player("Zbyszek");
-            Board boardPlayerTwo = new Board(Player2, 5);
-            Player1.AssignBoardToPlayer(boardPlayerOne);
-            Player2.AssignBoardToPlayer(boardPlayerTwo);
             Display displayer = new Display();
-            displayer.PrintBoard(boardPlayerOne, Player1);
-            displayer.PrintBoard(boardPlayerTwo, Player1);
-            boardPlayerOne.CreateShip(ShipTypeEnum.Submarine);
-            boardPlayerOne.PlaceShipOnBoard(boardPlayerOne.shipList[0], 0, 0, "horizontal");
-            displayer.PrintBoard(boardPlayerOne, Player1);
+            Player player1 = new Player("stefan");
+            Board board1 = new Board(player1, 5);
+            player1.AssignBoardToPlayer(board1);
+            displayer.PrintBoard(board1, player1);
+            board1.PlaceShipOnBoard(board1.shipList[0], 0, 0, "horizontal"); 
+            displayer.PrintBoard(board1, player1);
+            board1.PlaceShipOnBoard(board1.shipList[1], 1, 0, "horizontal");
+            displayer.PrintBoard(board1, player1);
+            board1.PlaceShipOnBoard(board1.shipList[2], 0, 2, "horizontal");
+            displayer.PrintBoard(board1, player1);
 
-
+            Console.WriteLine((int)board1.fields[1,1].Status);
+            Console.WriteLine((int)SquareStatusEnum.Ship);
 
         }
     }

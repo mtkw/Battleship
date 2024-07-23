@@ -14,6 +14,12 @@ namespace Battleship
         private int CoordinateY;
         private Ship? Ship;
 
+        public SquareStatusEnum Status
+        {
+            get
+            { return status; }
+        }
+
         public int getStatus()
         {
             return (int)status;
