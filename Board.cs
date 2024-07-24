@@ -126,14 +126,15 @@ namespace Battleship
                 return true;
         }
 
-        public void PlaceShipOnBoard(Ship ship, int startX, int startY, string Direction)
+        public bool PlaceShipOnBoard(Ship ship, int startX, int startY, string Direction)
         {
             if (IsPossiblePlacement(ship, startX, startY, Direction)) {
                 PlaceShip(ship, startX, startY, Direction);
+                return true;
             }
             else
             {
-                Console.WriteLine("Nie poszło");
+                throw new Exception("Wrong Coordinates. Please provide correct coordinates");
             }
         }
 
@@ -145,6 +146,7 @@ namespace Battleship
                 {
                     fields[startX + i, startY].placeShip(ship);
                     fields[startX + i, startY].changeStatus(SquareStatusEnum.Ship);
+                    fields[startX + i, startY].AddSquare();
                 }
             }
             else if (Direction.ToLower() == "vertical")
@@ -153,11 +155,76 @@ namespace Battleship
                 {
                     fields[startX, startY + i].placeShip(ship);
                     fields[startX, startY + i].changeStatus(SquareStatusEnum.Ship);
+                    fields[startX, startY + i].AddSquare();
                 }
             }
             else {
                 throw new Exception("Invalid Direction");
             }
+        }
+        private bool IsValidShotCoordinate(int x, int y)
+        {
+            if(x >= 0 && x < boardSize)
+            {
+                if(y >= 0 && y < boardSize)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsValidShot(int x, int y)
+        {
+            if (fields[x,y].Status == SquareStatusEnum.Ship || fields[x, y].Status == SquareStatusEnum.Empty)
+            {
+                return true;
+            }
+            return false;
+        }
+        public void Shot(int x, int y)
+        {
+            if (IsValidShotCoordinate(x,y))
+            {
+                if (IsValidShot(x, y))
+                {
+                    if (fields[x,y].Status == SquareStatusEnum.Ship)
+                    {
+                        fields[x,y].changeStatus(SquareStatusEnum.Hit);
+                        fields[x, y].addHitToList();
+                    }
+                    if (fields[x,y].Status == SquareStatusEnum.Empty)
+                    {
+                        fields[x, y].changeStatus(SquareStatusEnum.Missed);
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("You already shooted on this field. Please provide correct shooting coordinates");
+            }
+        }
+
+        public void IsSunk()
+        {
+            foreach (var ship in shipList)
+            {
+                ship.IsShipSunk();
+                if (ship.isSunk)
+                {
+                    foreach(var square in fields)
+                    {
+                        if (square.IsShipBelongToSquare(ship)){
+                            square.changeStatus(SquareStatusEnum.Sunk);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ChangeFiledsStatusToSunk(Ship ship)
+        {
+
         }
 
         private string ToStringPlayerBoard()
@@ -172,7 +239,7 @@ namespace Battleship
                     switch (FieldStatus)
                     {
                         case 0:
-                            board += "E";
+                            board += " ";
                             break;
                         case 1:
                             board += "S";
@@ -182,6 +249,9 @@ namespace Battleship
                             break;
                         case 3:
                             board += "M";
+                            break;
+                        case 4:
+                            board += "D";
                             break;
                         default:
                             board += "?";
@@ -205,7 +275,7 @@ namespace Battleship
                     switch (FieldStatus)
                     {
                         case 0:
-                            board += "E";
+                            board += " ";
                             break;
                         case 2:
                             board += "H";
@@ -213,6 +283,9 @@ namespace Battleship
                         case 3:
                             board += "M";
                             break;
+                         case 4:
+                            board += "D";
+                            break;  
                         default:
                             board += "*";
                             break;

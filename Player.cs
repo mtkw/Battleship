@@ -29,5 +29,9 @@ namespace Battleship
         public Board GetBoard() {
             return _board;
         }
+
+        public void Shot(Board board, int x, int y) { 
+            board.Shot(x, y);
+        }
     }
 }

@@ -36,5 +36,12 @@ namespace Battleship
         public void AddBoard(Board board) { 
             _boards.Add(board);
         }
+
+/*        public void Round()
+        {
+            foreach (Player player in _players) {
+                player.GetBoard
+            }
+        }*/
     }
 }

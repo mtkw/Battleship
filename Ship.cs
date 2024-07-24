@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Battleship
 {
@@ -10,10 +11,10 @@ namespace Battleship
     {
         private ShipTypeEnum shipType;
         private int lenght;
-        private List<Square>? Squares;
-        private List<Square> hits;
+        private List<Square>? Squares = new List<Square>();
+        private List<Square>? hits = new List<Square>();
         private bool isHitted;
-        private bool isSunk;
+        public bool isSunk;
 
 
         //Bez metody isHit() niepotrzebna jest
@@ -37,16 +38,39 @@ namespace Battleship
             return shipType.ToString();
         }
 
-/*        public string ShipType()
+        public void AddHit(Square square)
         {
-            string shipType = "";
-            switch (lenght)
+            hits.Add(square);
+        }
+
+        public void AddSquareToSquareList(Square square)
+        {
+            Squares.Add(square);
+        }
+
+        /*TO DO*/
+        public void IsShipSunk()
+        {
+            if (Squares.Count() != 0 && hits.Count() != 0)
             {
-                case 1:
-                    shipType = "Carrier";
-                    break;
+                Console.WriteLine("Najgłebiej");
+                IEnumerable<Square> difference = Squares.Except(hits);
+                Console.WriteLine(difference.Count());
+                if (difference.Count() == 0)
+                {
+                    isSunk = true;
+                }
             }
-        }*/
+            else
+            {
+                Console.WriteLine("nie działa");
+            }
+
+        }
+
+
+
+
 
     }
 }

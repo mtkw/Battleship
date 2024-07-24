@@ -39,5 +39,27 @@ namespace Battleship
         public void changeStatus(SquareStatusEnum status) { 
             this.status = status;
         }
+
+        public void addHitToList()
+        {
+            if(status == SquareStatusEnum.Hit)
+            {
+                Ship.AddHit(this);
+            }
+        }
+
+        public void AddSquare() {
+            Ship.AddSquareToSquareList(this);
+        }
+
+        public bool IsShipBelongToSquare(Ship ship) {
+            if(ship == this.Ship)
+            {
+                return true;
+            }
+            return false;
+        }
+
+      
     }
 }
