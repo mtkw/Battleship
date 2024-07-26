@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Battleship
 {
-    internal class BoardFactory
+    public static class BoardFactory
     {
+        internal static Board CreateBoard(Player player, int boardSize)
+        {
+            return new Board(player, boardSize);
+        }
     }
 }
