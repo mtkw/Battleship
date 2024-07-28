@@ -13,6 +13,7 @@ namespace Battleship
         private int lenght;
         private List<Square>? Squares = new List<Square>();
         private List<Square>? hits = new List<Square>();
+        private List<Square>? restrictedArea = new List<Square>();
         private bool isHitted;
         public bool isSunk;
 

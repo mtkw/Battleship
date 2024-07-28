@@ -144,18 +144,20 @@ namespace Battleship
             {
                 for (int i = 0; i < ship.ShipLength(); i++)
                 {
-                    fields[startX + i, startY].placeShip(ship);
-                    fields[startX + i, startY].changeStatus(SquareStatusEnum.Ship);
-                    fields[startX + i, startY].AddSquare();
+                    fields[startX, startY + i].placeShip(ship);
+                    fields[startX, startY + i].changeStatus(SquareStatusEnum.Ship);
+                    fields[startX, startY + i].AddSquare();
+                    fields[startX, startY + i].AddRestrictedArea(Direction);
                 }
             }
             else if (Direction.ToLower() == "vertical")
             {
                 for (int i = 0; i < ship.ShipLength(); i++)
                 {
-                    fields[startX, startY + i].placeShip(ship);
-                    fields[startX, startY + i].changeStatus(SquareStatusEnum.Ship);
-                    fields[startX, startY + i].AddSquare();
+                    fields[startX + i, startY].placeShip(ship);
+                    fields[startX + i, startY].changeStatus(SquareStatusEnum.Ship);
+                    fields[startX + i, startY].AddSquare();
+                    fields[startX + i, startY].AddRestrictedArea(Direction);
                 }
             }
             else {

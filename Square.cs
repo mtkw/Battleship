@@ -52,6 +52,18 @@ namespace Battleship
             Ship.AddSquareToSquareList(this);
         }
 
+        public void AddRestrictedArea(string Direction)
+        {
+            if(Direction.ToLower() =="horizontal")
+            {
+                
+            }
+            if(Direction.ToLower() == "vertical")
+            {
+
+            }
+        }
+
         public bool IsShipBelongToSquare(Ship ship) {
             if(ship == this.Ship)
             {

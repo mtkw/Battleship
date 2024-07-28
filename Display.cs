@@ -18,5 +18,10 @@ namespace Battleship
         {
             Console.WriteLine(player.PlayerName());
         }
+
+        public void PrintMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
     }
 }
