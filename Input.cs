@@ -12,7 +12,7 @@ namespace Battleship
 
         public string InputPlayerName()
         {
-            string playerName = "";
+            string playerName;
             string message = "Please Provide Player Name: ";
             displayer.PrintMessage(message);
             playerName = Console.ReadLine();

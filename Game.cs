@@ -10,6 +10,7 @@ namespace Battleship
     {
         private List<Player> _players;
         private List<Board> _boards;
+        private Input Input = new Input();
 
         public Game()
         {
@@ -37,11 +38,38 @@ namespace Battleship
             _boards.Add(board);
         }
 
-/*        public void Round()
+        public void InitGame()
         {
-            foreach (Player player in _players) {
-                player.GetBoard
+            _players.Clear();
+            _boards.Clear();
+            string PlayerOneName = Input.InputPlayerName();
+            string PlayerTwoName = Input.InputPlayerName();
+
+            Player PlayerOne = new Player(PlayerOneName);
+            Player PlayerTwo = new Player(PlayerTwoName);
+
+            int boardSize = Input.InputBoardSize();
+
+            Board boardPlayerOne = BoardFactory.CreateBoard(PlayerOne, boardSize);
+            Board boardPlayerTwo = BoardFactory.CreateBoard(PlayerTwo, boardSize);
+
+            PlayerOne.AssignBoardToPlayer(boardPlayerOne);
+            PlayerTwo.AssignBoardToPlayer(boardPlayerTwo);
+
+            _players.Add(PlayerOne);
+            _players.Add(PlayerTwo);
+
+            _boards.Add(boardPlayerOne);
+            _boards.Add(boardPlayerTwo);
+
+        }
+
+        public void PlacementPhase()
+        {
+            foreach (Board board in _boards)
+            {
+                
             }
-        }*/
+        }
     }
 }

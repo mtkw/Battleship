@@ -3,7 +3,7 @@
     internal class Program
     {
         static void Main(string[] args)
-        {
+        {/*
             Display displayer = new Display();
             Player player1 = new Player("stefan");
             Player player2 = new Player("zbyszek");
@@ -36,7 +36,7 @@
             board2.IsSunk();
             displayer.PrintBoard(board2, player2);
 
-            Input inputer = new Input();
+            Input inputer = new Input();*/
             /*            string playerOne = inputer.InputPlayerName();
                         Player testPlayer = new Player(playerOne);
                         displayer.PrintPlayer(testPlayer);*/
@@ -49,11 +49,15 @@
                         Console.WriteLine(a);
                         *//*            int a1 = char.Parse(a.ToUpper()) - 65;*//*
                         int a1 = a;
-                        Console.WriteLine(a1);*/
+*//*                        Console.WriteLine(a1);*//*
 
             int [] test = inputer.InputCoordinates();
             Console.WriteLine(test[0]);
-            Console.WriteLine(test[1]);
+            Console.WriteLine(test[1]);*/
+
+            Game game = new Game();
+            game.InitGame();
+
         }
     }
 }
