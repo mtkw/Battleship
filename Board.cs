@@ -84,14 +84,14 @@ namespace Battleship
             }
             else
             {
-                if (Direction.ToLower() == "horizontal" && startX + Ship.ShipLength() < boardSize)
+                if (Direction.ToLower() == "horizontal" && startY + Ship.ShipLength() < boardSize)
                 {
                     if(IsEmptySpace(Ship, startX, startY, Direction))
                     {
                         return true;
                     }
                 }
-                if (Direction.ToLower() == "vertical" && startY + Ship.ShipLength() < boardSize) 
+                if (Direction.ToLower() == "vertical" && startX + Ship.ShipLength() < boardSize) 
                 { 
                     if(IsEmptySpace(Ship, startY, startX, Direction))
                     {
@@ -106,9 +106,9 @@ namespace Battleship
         {
             if (Direction.ToLower() == "horizontal") 
             {
-                for(int y = 0; y < ship.ShipLength(); y++)
+                for(int x = 0; x < ship.ShipLength(); x++)
                 {
-                    if ((int)fields[startX, startY + y].Status != (int)SquareStatusEnum.Empty)
+                    if (fields[startX + x, startY].getStatus() != (int)SquareStatusEnum.Empty)
                     {
                         return false;
                     }
@@ -116,9 +116,9 @@ namespace Battleship
             }
             if (Direction.ToLower() == "vertical")
             {
-                for (int x = startX; x < ship.ShipLength(); x++)
+                for (int y = 0; y < ship.ShipLength(); y++)
                 {
-                    if (fields[startX + x, startY].getStatus() != (int)SquareStatusEnum.Empty)
+                    if (fields[startX, startY + y].getStatus() != (int)SquareStatusEnum.Empty)
                     {
                         return false;
                     }
@@ -135,7 +135,7 @@ namespace Battleship
             }
             else
             {
-                throw new Exception("Wrong Coordinates. Please provide correct coordinates");
+                return false;
             }
         }
 
@@ -185,7 +185,7 @@ namespace Battleship
             }
             return false;
         }
-        public void Shot(int x, int y)
+        public bool Shot(int x, int y)
         {
             if (IsValidShotCoordinate(x,y))
             {
@@ -195,29 +195,33 @@ namespace Battleship
                     {
                         fields[x,y].changeStatus(SquareStatusEnum.Hit);
                         fields[x, y].addHitToList();
+                        IsSunk();
                     }
                     if (fields[x,y].Status == SquareStatusEnum.Empty)
                     {
                         fields[x, y].changeStatus(SquareStatusEnum.Missed);
                     }
+                    return true;
                 }
+                return false;
             }
             else
             {
-                throw new Exception("You already shooted on this field. Please provide correct shooting coordinates");
+                return false;
             }
         }
 
-        public void IsSunk()
+        private void IsSunk()
         {
-            foreach (var ship in shipList)
+            foreach (Ship ship in shipList)
             {
                 ship.IsShipSunk();
                 if (ship.isSunk)
                 {
-                    foreach(var square in fields)
+                    foreach (var square in fields)
                     {
-                        if (square.IsShipBelongToSquare(ship)){
+                        if (square.IsShipBelongToSquare(ship))
+                        {
                             square.changeStatus(SquareStatusEnum.Sunk);
                         }
                     }

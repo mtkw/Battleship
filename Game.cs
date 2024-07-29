@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace Battleship
         private List<Board> _boards;
         private Input Input = new Input();
         private Display Display = new Display();
+        private bool EndPlayerTurn = false;
+        private bool IsWinner = false;
 
         public Game()
         {
@@ -74,32 +77,99 @@ namespace Battleship
                 Display.PrintPlayer(player);
                 foreach(Ship ship in board.shipList)
                 {
-                    while(true)
+                    while (true)
                     {
-                        Display.PrintShipLength(ship);
+                        Display.PrintShipLength(ship);/*Nazwa + długość*/
                         int[] coordinates = Input.InputCoordinates();
                         string direction = Input.InputShipDirection();
-                        Console.WriteLine(coordinates[0] + " " + coordinates[1] + " " + direction);
-                        if (board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction))
+                        if(board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction))
                         {
-                            board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction);
-                            Console.Clear();
-                            Display.PrintBoard(board, board.boardOwner);
-                            continue;
+                            Display.PrintBoard(board, player);
+                            break;
                         }
                         else
                         {
-                            break;
+                            Display.PrintMessage("Wrong Coordinates or Not Enough Space to place ship");
+                            continue;
                         }
                         
                     }
+
                 }
             }
         }
 
-        public void ShootingPhase()
+        private bool ShootingPhase(Player player, Player oponent)
         {
+                Board oponentBoard = oponent.GetBoard();
+                int[] coordinates = Input.InputCoordinates();
+                if (oponentBoard.Shot(coordinates[0], coordinates[1]))
+                {
+                    Display.PrintBoard(oponentBoard, player);
+                    if (oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Hit)
+                    {
+                        EndPlayerTurn = false;
+                    }
+                    else
+                    {
+                        EndPlayerTurn = true;
+                        return EndPlayerTurn;
+                    }
 
+                }
+                else
+                {
+                    Display.PrintMessage("Wrong Shooting Coordinates. Please provide correct coordinates");
+                    EndPlayerTurn = false;
+                }
+            return EndPlayerTurn;
+        }
+
+        public void Round()
+        {
+            while (WinningCondition())
+            {
+                foreach (Player currentPlayer in _players)
+                {
+                    int CurrentPlayerIndex = _players.IndexOf(currentPlayer) + 1;
+                    int NumberOfPlayers = _players.Count();
+                    Player oponent = _players[NumberOfPlayers - CurrentPlayerIndex];
+                    while (true)
+                    {
+                        if(ShootingPhase(currentPlayer, oponent))
+                        {
+                            Display.PrintMessage("Hitted !!!");
+                            continue;
+                        }
+                        else
+                        {
+                            Display.PrintMessage(currentPlayer + $" you missed");
+                            break;
+                        }
+                    }
+                }
+            }
+            Display.PrintMessage("END GAME!!!");
+        }
+
+        private bool WinningCondition()
+        {
+            foreach (Player player in _players) { 
+                Board PlayerBoard = player.GetBoard();
+                foreach (Ship ship in PlayerBoard.shipList)
+                {
+                    if (ship.isSunk)
+                    {
+                        IsWinner = true;
+                    }
+                    else
+                    {
+                        IsWinner = false;
+                        break;
+                    }
+                }
+            }
+            return IsWinner;
         }
     }
 }

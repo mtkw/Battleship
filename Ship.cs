@@ -15,7 +15,7 @@ namespace Battleship
         private List<Square>? hits = new List<Square>();
         private List<Square>? restrictedArea = new List<Square>();
         private bool isHitted;
-        public bool isSunk;
+        public bool isSunk = false;
 
 
         //Bez metody isHit() niepotrzebna jest
@@ -54,19 +54,12 @@ namespace Battleship
         {
             if (Squares.Count() != 0 && hits.Count() != 0)
             {
-                Console.WriteLine("Najgłebiej");
                 IEnumerable<Square> difference = Squares.Except(hits);
-                Console.WriteLine(difference.Count());
                 if (difference.Count() == 0)
                 {
                     isSunk = true;
                 }
             }
-            else
-            {
-                Console.WriteLine("nie działa");
-            }
-
         }
 
 
