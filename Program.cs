@@ -57,6 +57,7 @@
 
             Game game = new Game();
             game.InitGame();
+            game.PlacementPhase();
 
         }
     }

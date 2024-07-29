@@ -11,6 +11,7 @@ namespace Battleship
         private List<Player> _players;
         private List<Board> _boards;
         private Input Input = new Input();
+        private Display Display = new Display();
 
         public Game()
         {
@@ -66,10 +67,39 @@ namespace Battleship
 
         public void PlacementPhase()
         {
-            foreach (Board board in _boards)
+            foreach (Player player in _players)
             {
-                
+                Board board = player.GetBoard();
+                Display.PrintMessage("Placement Phase");
+                Display.PrintPlayer(player);
+                foreach(Ship ship in board.shipList)
+                {
+                    while(true)
+                    {
+                        Display.PrintShipLength(ship);
+                        int[] coordinates = Input.InputCoordinates();
+                        string direction = Input.InputShipDirection();
+                        Console.WriteLine(coordinates[0] + " " + coordinates[1] + " " + direction);
+                        if (board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction))
+                        {
+                            board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction);
+                            Console.Clear();
+                            Display.PrintBoard(board, board.boardOwner);
+                            continue;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        
+                    }
+                }
             }
+        }
+
+        public void ShootingPhase()
+        {
+
         }
     }
 }

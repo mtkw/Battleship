@@ -8,7 +8,7 @@ namespace Battleship
 {
     internal class Board
     {
-        private readonly Player boardOwner;
+        public readonly Player boardOwner;
         public Square[,] fields;
         private int boardSize;
         public List<Ship> shipList = new List<Ship>();
@@ -60,6 +60,7 @@ namespace Battleship
             for (int x = 0; x < PossibleShipsCount; x++)
             {
                 Ship Ship = new Ship(shipTypeEnumList[x]);
+                Console.WriteLine(shipTypeEnumList[x]);
                 shipList.Add(Ship);
             }
         }
@@ -147,7 +148,7 @@ namespace Battleship
                     fields[startX, startY + i].placeShip(ship);
                     fields[startX, startY + i].changeStatus(SquareStatusEnum.Ship);
                     fields[startX, startY + i].AddSquare();
-                    fields[startX, startY + i].AddRestrictedArea(Direction);
+                    fields[startX, startY + i].AddRestrictedArea(Direction);/*TO DO*/
                 }
             }
             else if (Direction.ToLower() == "vertical")
@@ -157,7 +158,7 @@ namespace Battleship
                     fields[startX + i, startY].placeShip(ship);
                     fields[startX + i, startY].changeStatus(SquareStatusEnum.Ship);
                     fields[startX + i, startY].AddSquare();
-                    fields[startX + i, startY].AddRestrictedArea(Direction);
+                    fields[startX + i, startY].AddRestrictedArea(Direction);/*TO DO*/
                 }
             }
             else {
