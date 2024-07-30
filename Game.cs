@@ -42,7 +42,7 @@ namespace Battleship
             _boards.Add(board);
         }
 
-        public void InitGame()
+        private void InitGame()
         {
             _players.Clear();
             _boards.Clear();
@@ -68,7 +68,7 @@ namespace Battleship
 
         }
 
-        public void PlacementPhase()
+        private void PlacementPhase()
         {
             foreach (Player player in _players)
             {
@@ -102,10 +102,13 @@ namespace Battleship
         private bool ShootingPhase(Player player, Player oponent)
         {
                 Board oponentBoard = oponent.GetBoard();
-                int[] coordinates = Input.InputCoordinates();
+                int[] coordinates = Input.InputShotingCoordinates();
                 if (oponentBoard.Shot(coordinates[0], coordinates[1]))
                 {
-                    Display.PrintBoard(oponentBoard, player);
+                Display.PrintMessage("Shooting Phase");
+                Display.PrintPlayer(player);
+                Display.PrintMessage("Oponent Board");
+                Display.PrintBoard(oponentBoard, player);
                     if (oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Hit)
                     {
                         EndPlayerTurn = false;
@@ -113,7 +116,6 @@ namespace Battleship
                     else
                     {
                         EndPlayerTurn = true;
-                        return EndPlayerTurn;
                     }
 
                 }
@@ -125,31 +127,44 @@ namespace Battleship
             return EndPlayerTurn;
         }
 
-        public void Round()
+        private bool Round(Player player, Player oponent)
         {
-            while (WinningCondition())
+            bool IsMissed = false;
+
+            while (!IsMissed)
             {
-                foreach (Player currentPlayer in _players)
+                if(ShootingPhase(player, oponent))
                 {
-                    int CurrentPlayerIndex = _players.IndexOf(currentPlayer) + 1;
-                    int NumberOfPlayers = _players.Count();
-                    Player oponent = _players[NumberOfPlayers - CurrentPlayerIndex];
-                    while (true)
-                    {
-                        if(ShootingPhase(currentPlayer, oponent))
-                        {
-                            Display.PrintMessage("Hitted !!!");
-                            continue;
-                        }
-                        else
-                        {
-                            Display.PrintMessage(currentPlayer + $" you missed");
-                            break;
-                        }
-                    }
+                    Display.PrintMessage("Hitted !!!");
+                }
+                    Display.PrintMessage(player + $" you missed");
+                    IsMissed = true;    
+            }
+            return EndPlayerTurn;
+        }
+
+        public void PlayGame()
+        {
+            /*Start and Init Game*/
+            InitGame();
+            PlacementPhase();
+
+            /*Shooting Phase wiht checking winning condition*/
+            while (!IsWinner)
+            {
+                if (!EndPlayerTurn)
+                {
+                    Console.WriteLine(_players[0].PlayerName() + "Is shooting");
+                    ShootingPhase(_players[0], _players[1]);
+                    WinningCondition();
+                }
+                else
+                {
+                    Console.WriteLine(_players[1].PlayerName() + "Is shooting");
+                    ShootingPhase(_players[1], _players[0]);
+                    WinningCondition();
                 }
             }
-            Display.PrintMessage("END GAME!!!");
         }
 
         private bool WinningCondition()
@@ -158,17 +173,19 @@ namespace Battleship
                 Board PlayerBoard = player.GetBoard();
                 foreach (Ship ship in PlayerBoard.shipList)
                 {
-                    if (ship.isSunk)
-                    {
-                        IsWinner = true;
-                    }
-                    else
+                    if (!ship.isSunk)
                     {
                         IsWinner = false;
                         break;
                     }
+                    else
+                    {
+                        IsWinner = true;
+                        continue;
+                    }
                 }
             }
+
             return IsWinner;
         }
     }

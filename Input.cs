@@ -60,6 +60,18 @@ namespace Battleship
             return coordinates;
         }
 
+        public int[] InputShotingCoordinates()
+        {
+            int[] coordinates;
+            string input = "";
+            string message = "Please Provide Coordinates to Shot: ";
+            displayer.PrintMessage(message);
+            input = Console.ReadLine();
+            coordinates = TranslateCoordinates(input);
+
+            return coordinates;
+        }
+
         private int[] TranslateCoordinates(string input)
         {
             int[] coordinates;
