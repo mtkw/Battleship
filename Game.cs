@@ -16,6 +16,9 @@ namespace Battleship
         private Display Display = new Display();
         private bool EndPlayerTurn = false;
         private bool IsWinner = false;
+        private bool PlayerOneEndMove = false;
+        private bool PlayerTwoEndMove = true;
+
 
         public Game()
         {
@@ -75,15 +78,15 @@ namespace Battleship
             {
                 Board board = player.GetBoard();
                 Display.PrintMessage("Placement Phase");
-                Display.PrintPlayer(player);
+                Display.PrintMessage(player.PlayerName());
                 foreach(Ship ship in board.shipList)
                 {
                     while (true)
                     {
-                        Display.PrintShipLength(ship);/*Nazwa + długość*/
+                        Display.PrintMessage(ship.ShipType + " size: " + ship.ShipLength);
                         int[] coordinates = Input.InputCoordinates();
                         string direction = Input.InputShipDirection();
-                        if(board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction))
+                        if (board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction))
                         {
                             Display.PrintBoard(board, player);
                             break;
@@ -102,54 +105,50 @@ namespace Battleship
 
         private bool ShootingPhase(Player player, Player oponent)
         {
-                Board oponentBoard = oponent.GetBoard();
+            Board oponentBoard = oponent.GetBoard();
                 int[] coordinates = Input.InputShotingCoordinates();
                 if (oponentBoard.Shot(coordinates[0], coordinates[1]))
                 {
                 Display.PrintMessage("Shooting Phase");
-                Display.PrintPlayer(player);
+                Display.PrintMessage(player.PlayerName());
+                Display.PrintMessage("Player Board");
+                Display.PrintBoard(player.GetBoard(), player); 
                 Display.PrintMessage("Oponent Board");
                 Display.PrintBoard(oponentBoard, player);
-                return oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Hit;
-                /*                    if (oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Hit)
-                                    {
-                                        EndPlayerTurn = false;
-                                    }
-                                    else
-                                    {
-                                        EndPlayerTurn = true;
-                                    }*/
+                    if (oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Hit)
+                    {
+                        EndPlayerTurn = false;
+                    }
+                    else
+                    {
+                        EndPlayerTurn = true;
+                    }
 
                 }
                 else
                 {
                     Display.PrintMessage("Wrong Shooting Coordinates. Please provide correct coordinates");
-                /*                    EndPlayerTurn = false;*/
-                    return false;
+                    EndPlayerTurn = false;
                 }
-/*            return EndPlayerTurn;*/
+            return EndPlayerTurn;
         }
 
         private bool Round(Player player, Player oponent)
         {
-/*            bool IsMissed = false;
+            bool IsMissed = false;
 
             while (!IsMissed)
             {
-                if (ShootingPhase(player, oponent))
+                if(ShootingPhase(player, oponent))
                 {
                     Display.PrintMessage("Hitted !!!");
+                    IsMissed = false;
+                    continue;
                 }
-                Display.PrintMessage(player + $" you missed");
-                IsMissed = true;
+                    Display.PrintMessage(player + $" you missed");
+                    IsMissed = true;    
             }
-            return EndPlayerTurn;*/
-            while (ShootingPhase(player, oponent))
-            {
-                Display.PrintMessage("Hit!");
-            }
-            Display.PrintMessage($"{player.PlayerName()} you missed");
-            return true;
+            return EndPlayerTurn;
         }
 
         public void PlayGame()
@@ -164,64 +163,41 @@ namespace Battleship
             /*Shooting Phase wiht checking winning condition*/
             while (!IsWinner)
             {
-                /*                if (!EndPlayerTurn)
-                                {
-                                    Console.WriteLine(_players[0].PlayerName() + "Is shooting");
-                                    ShootingPhase(_players[0], _players[1]);
-                                    WinningCondition();
-                                }
-                                else
-                                {
-                                    Console.WriteLine(_players[1].PlayerName() + "Is shooting");
-                                    ShootingPhase(_players[1], _players[0]);
-                                    WinningCondition();
-                                }*/
-                Display.PrintMessage($"{currentPlayer.PlayerName()} is shooting");
-                Round(currentPlayer, opponentPlayer);
-                if (WinningCondition())
+                if (!EndPlayerTurn)
                 {
-                    break;
+                    Console.WriteLine(_players[0].PlayerName() + "Is shooting");
+                    ShootingPhase(_players[0], _players[1]);
+                    WinningCondition();
                 }
-
-                // Swap players
-                Player temp = currentPlayer;
-                currentPlayer = opponentPlayer;
-                opponentPlayer = temp;
+                else
+                {
+                    Console.WriteLine(_players[1].PlayerName() + "Is shooting");
+                    ShootingPhase(_players[1], _players[0]);
+                    WinningCondition();
+                }
             }
         }
 
         private bool WinningCondition()
         {
-            /*            foreach (Player player in _players) { 
-                            Board PlayerBoard = player.GetBoard();
-                            foreach (Ship ship in PlayerBoard.shipList)
-                            {
-                                if (!ship.isSunk)
-                                {
-                                    IsWinner = false;
-                                    break;
-                                }
-                                else
-                                {
-                                    IsWinner = true;
-                                    continue;
-                                }
-                            }
-                        }
-
-                        return IsWinner;*/
-            foreach (Player player in _players)
-            {
-                Board playerBoard = player.GetBoard();
-                if (playerBoard.shipList.All(ship => ship.isSunk))
+            foreach (Player player in _players) { 
+                Board PlayerBoard = player.GetBoard();
+                foreach (Ship ship in PlayerBoard.shipList)
                 {
-                    IsWinner = true;
-                    Display.PrintMessage($"{player.PlayerName()} has won the game!");
-                    return true;
+                    if (!ship.isSunk)
+                    {
+                        IsWinner = false;
+                        break;
+                    }
+                    else
+                    {
+                        IsWinner = true;
+                        continue;
+                    }
                 }
             }
-            IsWinner = false;
-            return false;
+
+            return IsWinner;
         }
     }
 }
