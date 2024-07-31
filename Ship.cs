@@ -15,7 +15,7 @@ namespace Battleship
         private List<Square>? hits = new List<Square>();
         private List<Square>? restrictedArea = new List<Square>();
         private bool isHitted;
-        public bool isSunk = false;
+        public bool isSunk;
 
 
         //Bez metody isHit() niepotrzebna jest

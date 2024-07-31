@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,19 +49,11 @@ namespace Battleship
             }
         }
 
-        //Create ship i pleace ship should be here.
-/*        public void CreateShip(ShipTypeEnum shipType)
-        {
-            Ship Ship = new Ship(shipType);
-            shipList.Add(Ship);
-        }*/
-
         private void CreateShip()
         {
             for (int x = 0; x < PossibleShipsCount; x++)
             {
                 Ship Ship = new Ship(shipTypeEnumList[x]);
-                Console.WriteLine(shipTypeEnumList[x]);
                 shipList.Add(Ship);
             }
         }
@@ -104,13 +97,51 @@ namespace Battleship
 
         private bool IsEmptySpace(Ship ship, int startX, int startY, string Direction) 
         {
-            if (Direction.ToLower() == "horizontal") 
+            bool IsEmptySpace = false;
+            for(int i = 0; i < ship.ShipLength(); i++)
+            {
+                if(Direction.ToLower() == "horizontal")
+                {
+                    if (fields[startX, startY + i].Status == SquareStatusEnum.Empty)
+                    {
+                        IsEmptySpace = true;
+                    }
+                    else
+                    {
+                        IsEmptySpace = false;
+                        break;
+                    }
+                }
+                if(Direction.ToLower() == "vertical")
+                {
+                    if (fields[startX + i, startY].Status == SquareStatusEnum.Empty)
+                    {
+                        IsEmptySpace = true;
+                    }
+                    else
+                    {
+                        IsEmptySpace = false;
+                    }
+                }
+            }
+            /*if (Direction.ToLower() == "horizontal") 
             {
                 for(int x = 0; x < ship.ShipLength(); x++)
                 {
-                    if (fields[startX + x, startY].getStatus() != (int)SquareStatusEnum.Empty)
+                    Console.WriteLine("START X: " + startX + " STARTY " + startY + " X: " + x + " length: " + ship.ShipLength());
+                    Console.WriteLine("Status: " + fields[startX, startY + x].getStatus());
+                    Console.WriteLine("Square status EMPTY " + SquareStatusEnum.Empty);
+                    Console.WriteLine("SQUARE STATUS " + fields[startX, startY + x].getStatus());
+                    if (fields[startX, startY + x].getStatus() == 0)
                     {
-                        return false;
+                        IsEmptySpace = true;
+                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
+                    }
+                    else
+                    {
+                        IsEmptySpace = false;
+                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
+                        break;
                     }
                 }
             }
@@ -118,13 +149,22 @@ namespace Battleship
             {
                 for (int y = 0; y < ship.ShipLength(); y++)
                 {
-                    if (fields[startX, startY + y].getStatus() != (int)SquareStatusEnum.Empty)
+                    Console.WriteLine("START X: " + startX + " STARTY " + startY + " Y: " + y + " length: " + ship.ShipLength());
+                    Console.WriteLine("Status: " + fields[startX + y, startY].getStatus());
+                    if (fields[startX + y, startY].getStatus() == 0)
                     {
-                        return false;
+                        IsEmptySpace = true;
+                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
+                    }
+                    else
+                    {
+                        IsEmptySpace = false;
+                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
+                        break;
                     }
                 }
-            }
-                return true;
+            }*/
+            return IsEmptySpace;
         }
 
         public bool PlaceShipOnBoard(Ship ship, int startX, int startY, string Direction)
@@ -203,12 +243,8 @@ namespace Battleship
                     }
                     return true;
                 }
-                return false;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         private void IsSunk()
@@ -282,6 +318,9 @@ namespace Battleship
                     switch (FieldStatus)
                     {
                         case 0:
+                            board += " ";
+                            break;
+                        case 1:
                             board += " ";
                             break;
                         case 2:

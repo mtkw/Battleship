@@ -17,7 +17,9 @@ namespace Battleship
         public SquareStatusEnum Status
         {
             get
-            { return status; }
+            { 
+                return status; 
+            }
         }
 
         public int getStatus()

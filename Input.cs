@@ -81,7 +81,7 @@ namespace Battleship
                 string xString = input[0].ToString();
                 int x = char.Parse(xString.ToUpper()) - 65;
                 string yString = input[1].ToString();
-                int y = Convert.ToInt32(yString);
+                int y = Convert.ToInt32(yString) - 1;
                 coordinates = new int[] { x, y };
 
                 return coordinates;
@@ -91,7 +91,7 @@ namespace Battleship
                 string xString = input[0].ToString();
                 int x = char.Parse(xString.ToUpper()) - 65;
                 string yString = input.Substring(1, 2);
-                int y = Convert.ToInt32(yString);
+                int y = Convert.ToInt32(yString) - 1;
                 coordinates = new int[] { x, y };
                 return coordinates;
             }
