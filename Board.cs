@@ -19,7 +19,14 @@ namespace Battleship
         public Board(Player boardOwner, int boardSize)
         {
             this.boardOwner = boardOwner;
-            this.boardSize = boardSize;
+            if(boardSize < 5 || boardSize > 15)
+            {
+                throw new Exception("Board size must be between 5 to 15");
+            }
+            else
+            {
+                this.boardSize = boardSize;
+            }
             this.fields = new Square[boardSize, boardSize];
             if(boardSize >= 5 && boardSize <= 8)
             {
@@ -124,46 +131,6 @@ namespace Battleship
                     }
                 }
             }
-            /*if (Direction.ToLower() == "horizontal") 
-            {
-                for(int x = 0; x < ship.ShipLength(); x++)
-                {
-                    Console.WriteLine("START X: " + startX + " STARTY " + startY + " X: " + x + " length: " + ship.ShipLength());
-                    Console.WriteLine("Status: " + fields[startX, startY + x].getStatus());
-                    Console.WriteLine("Square status EMPTY " + SquareStatusEnum.Empty);
-                    Console.WriteLine("SQUARE STATUS " + fields[startX, startY + x].getStatus());
-                    if (fields[startX, startY + x].getStatus() == 0)
-                    {
-                        IsEmptySpace = true;
-                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
-                    }
-                    else
-                    {
-                        IsEmptySpace = false;
-                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
-                        break;
-                    }
-                }
-            }
-            if (Direction.ToLower() == "vertical")
-            {
-                for (int y = 0; y < ship.ShipLength(); y++)
-                {
-                    Console.WriteLine("START X: " + startX + " STARTY " + startY + " Y: " + y + " length: " + ship.ShipLength());
-                    Console.WriteLine("Status: " + fields[startX + y, startY].getStatus());
-                    if (fields[startX + y, startY].getStatus() == 0)
-                    {
-                        IsEmptySpace = true;
-                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
-                    }
-                    else
-                    {
-                        IsEmptySpace = false;
-                        Console.WriteLine("STATUS W IFIE " + IsEmptySpace);
-                        break;
-                    }
-                }
-            }*/
             return IsEmptySpace;
         }
 
