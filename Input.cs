@@ -59,9 +59,15 @@ namespace Battleship
             string message = "Please Provide Coordinates to Place Ship: ";
             displayer.PrintMessage(message);
             input = Console.ReadLine();
-            coordinates = TranslateCoordinates(input);
-
-            return coordinates;
+            if ((char.Parse(input[0].ToString().ToUpper()) >= 65 && char.Parse(input[0].ToString().ToUpper()) <= 90) && (char.Parse(input[1].ToString().ToUpper()) >= 48 && char.Parse(input[1].ToString().ToUpper()) <= 57))
+            {
+                coordinates = TranslateCoordinates(input);
+                return coordinates;
+            }
+            else
+            {
+                return InputCoordinates();
+            }
         }
 
         public int[] InputShotingCoordinates()
@@ -71,9 +77,15 @@ namespace Battleship
             string message = "Please Provide Coordinates to Shot: ";
             displayer.PrintMessage(message);
             input = Console.ReadLine();
-            coordinates = TranslateCoordinates(input);
-
-            return coordinates;
+            if ((char.Parse(input[0].ToString().ToUpper()) >= 65 && char.Parse(input[0].ToString().ToUpper()) <= 90) && (char.Parse(input[1].ToString().ToUpper()) >= 48 && char.Parse(input[1].ToString().ToUpper()) <= 57))
+            {
+                coordinates = TranslateCoordinates(input);
+                return coordinates;
+            }
+            else
+            {
+                return InputShotingCoordinates();
+            }
         }
 
         private int[] TranslateCoordinates(string input)
