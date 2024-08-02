@@ -84,7 +84,7 @@ namespace Battleship
                 {
                     while (true)
                     {
-                        Display.PrintMessage(ship.ShipType + " size: " + ship.ShipLength);
+                        Display.DisplayShipInfo(ship);
                         int[] coordinates = Input.InputCoordinates();
                         string direction = Input.InputShipDirection();
                         if (board.PlaceShipOnBoard(ship, coordinates[0], coordinates[1], direction))

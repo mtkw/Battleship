@@ -225,7 +225,7 @@ namespace Battleship
             foreach (Ship ship in shipList)
             {
                 ship.IsShipSunk();
-                if (ship.isSunk)
+                if (ship.IsSunk())
                 {
                     foreach (var square in fields)
                     {
@@ -236,11 +236,6 @@ namespace Battleship
                     }
                 }
             }
-        }
-
-        public void ChangeFiledsStatusToSunk(Ship ship)
-        {
-
         }
 
         private string ToStringPlayerBoard()

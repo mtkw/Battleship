@@ -33,5 +33,10 @@ namespace Battleship
         {
             Console.Clear();
         }
+
+        public void DisplayShipInfo(Ship ship)
+        {
+            Console.WriteLine($"Ship Type: " + ship.ShipType() + " Ship Size: " + ship.ShipLength());
+        }
     }
 }
