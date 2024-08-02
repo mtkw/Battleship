@@ -80,7 +80,7 @@ namespace Battleship
                 Board board = player.GetBoard();
                 Display.PrintMessage("Placement Phase");
                 Display.PrintMessage(player.PlayerName());
-                foreach (Ship ship in board.shipList)
+                foreach (Ship ship in board.ShipList())
                 {
                     while (true)
                     {
@@ -117,7 +117,7 @@ namespace Battleship
                 Display.PrintMessage("Oponent Board");
                 Display.PrintBoard(oponentBoard, player);
 
-                if (oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Hit || oponentBoard.fields[coordinates[0], coordinates[1]].Status == SquareStatusEnum.Sunk)
+                if (oponentBoard.getField(coordinates[0], coordinates[1]).Status == SquareStatusEnum.Hit || oponentBoard.getField(coordinates[0], coordinates[1]).Status == SquareStatusEnum.Sunk)
                 {
                     EndPlayerTurn = false;
                     return EndPlayerTurn;
@@ -134,25 +134,6 @@ namespace Battleship
             return EndPlayerTurn;
         }
 
-        /*        private bool Round(Player player, Player oponent)
-                {
-                    bool IsMissed = false;
-                    while (!IsMissed)
-                    {
-                        if (!ShootingPhase(player, oponent))
-                        {
-                            Display.PrintMessage("Hitted !!!");
-                            IsMissed = false;
-                            if (IsWinner) return true;
-                            continue;
-                        }
-                        Display.PrintMessage(player + $" you missed");
-                        IsMissed = true;
-                        WinningCondition();
-                        return IsMissed;
-                    }
-                    return IsMissed;
-                }*/
         private bool Round(Player player, Player opponent)
         {
             bool IsMissed = false;
@@ -176,51 +157,6 @@ namespace Battleship
             return IsMissed;
         }
 
-        /*        public void PlayGame()
-                {
-                    *//*Start and Init Game*//*
-                    InitGame();
-                    PlacementPhase();
-
-                    *//*Shooting Phase wiht checking winning condition*//*
-                    while (!IsWinner)
-                    {
-                        Display.ClearConsole();
-                        if (!PlayerOneEndMove)
-                        {
-                            Display.PrintMessage(_players[0].PlayerName() + " Is shooting");
-                            if (Round(_players[0], _players[1]))
-                            {
-                                PlayerOneEndMove = true;
-                                PlayerTwoEndMove = false;
-                                if (IsWinner)
-                                {
-                                    Display.PrintMessage("Player One Win Game");
-                                    break;
-                                }
-                                continue;
-                            }
-
-                        }
-                        if (!PlayerTwoEndMove)
-                        {
-                            Display.PrintMessage(_players[1].PlayerName() + " Is shooting");
-                            if (Round(_players[1], _players[0]))
-                            {
-                                PlayerOneEndMove = false;
-                                PlayerTwoEndMove = true;
-                                if (IsWinner)
-                                {
-                                    Display.PrintMessage("Player Two Win Game");
-                                    break;
-                                }
-                                continue;
-                            }
-
-                        }
-
-                    }
-                }*/
         public void PlayGame()
         {
             /*Start and Init Game*/
@@ -264,34 +200,12 @@ namespace Battleship
             }
         }
 
-        /*        private void WinningCondition()
-                {
-
-                    foreach (Player player in this._players)
-                    {
-                        Board PlayerBoard = player.GetBoard();
-                        foreach (Ship ship in PlayerBoard.shipList)
-                        {
-
-                            if (!ship.isSunk)
-                            {
-                                this.IsWinner = false;
-                            }
-                            else
-                            {
-                                this.IsWinner = true;
-
-                            }
-                        }
-                    }
-
-                }*/
         private bool WinningCondition(Player opponent)
         {
             Board opponentBoard = opponent.GetBoard();
-            foreach (Ship ship in opponentBoard.shipList)
+            foreach (Ship ship in opponentBoard.ShipList())
             {
-                if (!ship.isSunk)
+                if (!ship.IsSunk())
                 {
                     return false;
                 }

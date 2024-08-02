@@ -9,35 +9,30 @@ namespace Battleship
 {
     internal class Board
     {
-        public readonly Player boardOwner;
-        public Square[,] fields;
+        private readonly Player boardOwner;
+        private Square[,] fields;
         private int boardSize;
-        public List<Ship> shipList = new List<Ship>();
-        public int PossibleShipsCount;
+        private List<Ship> shipList = new List<Ship>();
+        private int PossibleShipsCount;
         private List<ShipTypeEnum> shipTypeEnumList = new List<ShipTypeEnum>();
+        private Display Display = new Display();
+        private Input Input = new Input();
+
+        public List<Ship> ShipList()
+        {
+            return shipList;
+        }
+
+        public Square getField(int x, int y) 
+        { 
+            return fields[x,y];
+        }
 
         public Board(Player boardOwner, int boardSize)
         {
             this.boardOwner = boardOwner;
-            /*            if(boardSize < 5 || boardSize > 15)
-                        {
-                            throw new Exception("Board size must be between 5 to 15");
-                        }
-                        else
-                        {
-                            this.boardSize = boardSize;
-                        }*/
-            while (boardSize < 4 || boardSize > 16)
-            {
-                Console.WriteLine("Board size must be between 5 to 15. Please enter a valid board size:");
-                string input = Console.ReadLine();
-                if (int.TryParse(input, out int validBoardSize))
-                {
-                    boardSize = validBoardSize;
-                }
-            }
-
             this.boardSize = boardSize;
+            
             this.fields = new Square[boardSize, boardSize];
             if(boardSize >= 5 && boardSize <= 8)
             {

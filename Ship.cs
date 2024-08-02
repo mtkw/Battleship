@@ -15,11 +15,14 @@ namespace Battleship
         private List<Square>? hits = new List<Square>();
         private List<Square>? restrictedArea = new List<Square>();
         private bool isHitted;
-        public bool isSunk;
+        private bool isSunk;
 
 
-        //Bez metody isHit() niepotrzebna jest
-        //Potrzebna jest metoda isSunk()
+        public bool IsSunk()
+        {
+            return isSunk;
+        }
+
         public Ship(ShipTypeEnum shipType)
         {
             this.shipType = shipType;
@@ -61,10 +64,5 @@ namespace Battleship
                 }
             }
         }
-
-
-
-
-
     }
 }

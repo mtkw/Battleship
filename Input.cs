@@ -35,6 +35,10 @@ namespace Battleship
             }
             else
             {
+                if (boardSize < 5 || boardSize > 15) {
+                    displayer.PrintMessage("Invalid Board Size. Please provide correct board size. Board size should be between 5 to 15");
+                    return InputBoardSize();
+                }
                 return boardSize;
             }
         }

@@ -8,5 +8,9 @@ namespace Battleship
 {
     internal class Battleship
     {
+        public Battleship() {
+            Game game = new Game();
+            game.PlayGame();
+        }
     }
 }
