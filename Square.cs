@@ -17,8 +17,8 @@ namespace Battleship
         public SquareStatusEnum Status
         {
             get
-            { 
-                return status; 
+            {
+                return status;
             }
         }
 
@@ -34,46 +34,50 @@ namespace Battleship
             status = 0;
         }
 
-        public void placeShip(Ship ship) { 
+        public void placeShip(Ship ship)
+        {
             this.Ship = ship;
         }
 
-        public void changeStatus(SquareStatusEnum status) { 
+        public void changeStatus(SquareStatusEnum status)
+        {
             this.status = status;
         }
 
         public void addHitToList()
         {
-            if(status == SquareStatusEnum.Hit)
+            if (status == SquareStatusEnum.Hit)
             {
                 Ship.AddHit(this);
             }
         }
 
-        public void AddSquare() {
+        public void AddSquare()
+        {
             Ship.AddSquareToSquareList(this);
         }
 
         public void AddRestrictedArea(string Direction)
         {
-            if(Direction.ToLower() =="horizontal")
+            if (Direction.ToLower() == "horizontal")
             {
-                
+
             }
-            if(Direction.ToLower() == "vertical")
+            if (Direction.ToLower() == "vertical")
             {
 
             }
         }
 
-        public bool IsShipBelongToSquare(Ship ship) {
-            if(ship == this.Ship)
+        public bool IsShipBelongToSquare(Ship ship)
+        {
+            if (ship == this.Ship)
             {
                 return true;
             }
             return false;
         }
 
-      
+
     }
 }

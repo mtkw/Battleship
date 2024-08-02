@@ -19,14 +19,25 @@ namespace Battleship
         public Board(Player boardOwner, int boardSize)
         {
             this.boardOwner = boardOwner;
-            if(boardSize < 5 || boardSize > 15)
+            /*            if(boardSize < 5 || boardSize > 15)
+                        {
+                            throw new Exception("Board size must be between 5 to 15");
+                        }
+                        else
+                        {
+                            this.boardSize = boardSize;
+                        }*/
+            while (boardSize < 4 || boardSize > 16)
             {
-                throw new Exception("Board size must be between 5 to 15");
+                Console.WriteLine("Board size must be between 5 to 15. Please enter a valid board size:");
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out int validBoardSize))
+                {
+                    boardSize = validBoardSize;
+                }
             }
-            else
-            {
-                this.boardSize = boardSize;
-            }
+
+            this.boardSize = boardSize;
             this.fields = new Square[boardSize, boardSize];
             if(boardSize >= 5 && boardSize <= 8)
             {
@@ -239,74 +250,98 @@ namespace Battleship
 
         private string ToStringPlayerBoard()
         {
-            string board = "";
+            var board = new StringBuilder();
+
+            board.Append("  ");
+            for (int i = 0; i <boardSize; i++)
+            {
+                board.Append(i + 1);
+                board.Append(" ");
+            }
+            board.AppendLine();
 
             for (int x = 0; x < boardSize; x++)
             {
+                board.Append((char)('A' + x));
+                board.Append(" ");
+
                 for (int y = 0; y < boardSize; y++)
                 {
                     int FieldStatus = fields[x, y].getStatus();
                     switch (FieldStatus)
                     {
                         case 0:
-                            board += " ";
+                            board.Append(" ");
                             break;
                         case 1:
-                            board += "S";
+                            board.Append("S");
                             break;
                         case 2:
-                            board += "H";
+                            board.Append("H");
                             break;
                         case 3:
-                            board += "M";
+                            board.Append("M");
                             break;
                         case 4:
-                            board += "D";
+                            board.Append("D");
                             break;
                         default:
-                            board += "?";
+                            board.Append("?");
                             break;
                     }
+                    board.Append(" ");
                 }
-                board += "\n";
+                board.AppendLine();
             }
-            return board;
+            return board.ToString();
         }
 
         private string ToStringOppenentBoard()
         {
-            string board = "";
+            var board = new StringBuilder();
+
+            board.Append("  ");
+            for(int i = 0; i < boardSize; i++)
+            {
+                board.Append(i + 1);
+                board.Append(" ");
+            }
+            board.AppendLine();
 
             for (int x = 0; x < boardSize; x++)
             {
+                board.Append((char)('A' + x));
+                board.Append(" ");
+
                 for (int y = 0; y < boardSize; y++)
                 {
                     int FieldStatus = fields[x, y].getStatus();
                     switch (FieldStatus)
                     {
                         case 0:
-                            board += " ";
+                            board.Append(" ");
                             break;
                         case 1:
-                            board += " ";
+                            board.Append(" ");
                             break;
                         case 2:
-                            board += "H";
+                            board.Append("H");
                             break;
                         case 3:
-                            board += "M";
+                            board.Append("M");
                             break;
                          case 4:
-                            board += "D";
+                            board.Append("D");
                             break;  
                         default:
-                            board += "*";
+                            board.Append("*");
                             break;
                     }
+                    board.Append(" ");
                 }
-                board += "\n";
+                board.AppendLine();
             }
-            return board;
+            return board.ToString();
         }
 
         public string ToString(Player ActivePlayer)

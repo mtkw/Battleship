@@ -28,7 +28,7 @@ namespace Battleship
             string input = Console.ReadLine();
             Int32.TryParse(input, out boardSize);
 
-            if(!Int32.TryParse(input, out boardSize))
+            if (!Int32.TryParse(input, out boardSize))
             {
                 displayer.PrintMessage("Invalid Board Size. Please provide correct board size");
                 return InputBoardSize();

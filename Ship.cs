@@ -24,7 +24,7 @@ namespace Battleship
         {
             this.shipType = shipType;
             this.lenght = (int)shipType;
-            hits = new ();
+            hits = new();
             isHitted = false;
             isSunk = false;
         }

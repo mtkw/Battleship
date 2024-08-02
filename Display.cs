@@ -24,7 +24,8 @@ namespace Battleship
             Console.WriteLine(message);
         }
 
-        public void PrintShipLength(Ship ship) {
+        public void PrintShipLength(Ship ship)
+        {
             Console.WriteLine($"Ship Size: " + ship.ShipLength());
         }
 

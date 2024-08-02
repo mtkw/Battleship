@@ -18,19 +18,23 @@ namespace Battleship
             _statistics = new Dictionary<string, int>();
         }
 
-        public string PlayerName() { 
+        public string PlayerName()
+        {
             return _name;
         }
 
-        public void AssignBoardToPlayer(Board board) { 
+        public void AssignBoardToPlayer(Board board)
+        {
             _board = board;
         }
 
-        public Board GetBoard() {
+        public Board GetBoard()
+        {
             return _board;
         }
 
-        public void Shot(Board board, int x, int y) { 
+        public void Shot(Board board, int x, int y)
+        {
             board.Shot(x, y);
         }
     }
